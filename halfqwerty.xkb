@@ -231,6 +231,28 @@ xkb_symbols "space" {
 
     name[Group1] = "English (US, halfqwerty assuming space modifier)" ;
 
-    key <CAPS> { [       Return,      Return, apostrophe,    quotedbl ] } ;
+    key <CAPS> {
+        type    [ Group1 ] = "THREE_LEVEL",
+
+        // When not using caps lock as a modifier, we can use it as a
+        // symmetrical counterpart to the apostrophe/quotedbl key.
+        symbols [ Group1 ] = [ Return, Return, apostrophe, quotedbl ],
+
+        // When mapping <CAPS> to a modifier like done in
+        // level3(caps_switch), <CAPS> no longer sets the caps lock
+        // state - exactly what we want.
+        //
+        // But in this variant we map <CAPS> to an ordinary key and
+        // XKB activates caps lock in those situations. Below line
+        // makes sure that <CAPS> triggers a Return without activating
+        // the caps lock state. I don't believe "none" is a valid
+        // value here, so please speak up if you know a better way to
+        // achieve this.
+        //
+        // This effectively disables caps lock when pressing enter,
+        // but it's unpolite to shout anyway.
+        actions [ Group1 ] = [ SetMods(mods=none) ]
+    } ;
+
     key <TAB>  { [          Tab,         Tab,  BackSpace,   BackSpace ] } ;
 };
