@@ -76,6 +76,63 @@ xkb_symbols "caps" {
 partial modifier_keys
 xkb_symbols "space" {
 
+    // This layout is optimized for configurations where the space bar
+    // is used as a level three shift.
+    //
+    // Special mappings in this variant are:
+    //
+    //    |----------------------+-----------|
+    //    | KEY                  | FUNCTION  |
+    //    |----------------------+-----------|
+    //    | caps                 | return    |
+    //    | space + caps         | '         |
+    //    | shift + space + caps | "         |
+    //    | tab                  | tab       |
+    //    | space + tab          | backspace |
+    //    |----------------------+-----------|
+    //
+    // There are two known two practical ways of using the space bar
+    // as a level3 shift modifier:
+    //
+    // 1. Using a modified X input driver
+    //
+    // See the at-home-modifier wiki page for more information:
+    //   https://gitlab.com/at-home-modifier/at-home-modifier-evdev/wikis/home
+    //
+    // The halfqwerty(space) layout assumes a transmod setting mapping
+    // the space bar to ISO_Level3_Shift:
+    //
+    //   Option "TransMod" "65:92"
+    //
+    // You should consider enabling the delay option to allow key
+    // roll-over (i.e. pressing x before releasing space) when doing
+    // fast two-handed typing:
+    //
+    //   Option "AhmDelay" "65"
+    //
+    // With or without this option, you'll need some time to get used
+    // to one- or two-handed typing with the transmod option
+    // enabled. Keep in mind that pressing space along with a regular
+    // key triggering the mirrored layout is the sole purpose of this
+    // setup.
+    //
+    // 2. Using "userland" tooling like xcape
+    //
+    // See the examples section on https://github.com/alols/xcape, the
+    // example shows how to configure a dual space/control function
+    // for the space bar. The same trick could be used to define a
+    // dual space/iso_level3_shift function. There are many ways to do
+    // that, for example: instead of using xmodmap to map Control to
+    // Hyper_L, map Mod5 to Hyper_L. Then use the 'lv3:ralt_switch'
+    // keyboard option in your X config or alternatively, select
+    // 'Right Alt' under 'Key to choose 3rd level' in your desktop
+    // environments keyboard settings.
+    //
+    // Note that due to the nature of how tools like xcape work, it
+    // won't work well when typing fast unless you manage to take
+    // special care to release the space bar before pressing a regular
+    // key.
+
     include "halfqwerty(basic)"
 
     name[Group1] = "English (US, halfqwerty assuming space modifier)" ;
