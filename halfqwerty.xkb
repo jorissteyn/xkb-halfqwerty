@@ -62,6 +62,22 @@ xkb_symbols "basic" {
 partial modifier_keys
 xkb_symbols "caps" {
 
+    // The halfqwerty(caps) layout works out-of-the-box requiring no
+    // additional tooling or configuration. Instead of leaving it up
+    // to the user to define a level3 shift modifier it defines the
+    // caps lock key as such a modifier.
+    //
+    // Special mappings for this variant are:
+    //
+    //    |------------------+-----------|
+    //    | KEY              | FUNCTION  |
+    //    |------------------+-----------|
+    //    | `                | backspace |
+    //    | SHIFT + `        | ~         |
+    //    | CAPS + SHIFT + ` | `         |
+    //    | CAPS + space     | return    |
+    //    |------------------+-----------|
+
     include "halfqwerty(basic)"
 
     name[Group1] = "English (US, halfqwerty using caps modifier)" ;
