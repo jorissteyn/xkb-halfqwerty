@@ -3,6 +3,79 @@ xkb_symbols "basic" {
 
     name[Group1] = "English (US, halfqwerty)" ;
 
+    // This default halfqwerty layout can be used as a base for your
+    // one-hand typing needs. It defines a mirrored qwerty layout on
+    // the third shift level for almost all keys.
+    //
+    // Due to the limited available space on just half of a keyboard,
+    // the following keys have no mirrored mapping:
+    //
+    // - leftbracket, rightbracket, backslash
+    // - arrow keys (who needs those?)
+    // - home, end, page up/down
+    // - delete
+    // - function keys (though that would be possible)
+    //
+    // In order to make the halfqwerty layout available to the X
+    // Keyboard Extension, copy halfqwerty.xkb to the symbols folder
+    // of XKB, usually done like this:
+    //
+    //    $ sudo cp halfqwerty.xkb /usr/share/X11/xkb/symbols/halfqwerty
+    //    (note: drop the .xkb file extension)
+    //
+    // You can now try the layout with 'setxkbmap -layout halfqwerty'.
+    //
+    // In order to make the halfqwerty layout available to the
+    // keyboard configuration of your desktop environment, modify the
+    // XKB rules of your system:
+    //
+    //    - open /usr/share/X11/xkb/rules/evdev.xml in your favourite text editor
+    //    - find the <layoutList> element
+    //    - add the halfqwerty layout:
+    //
+    //         <layout>
+    //           <configItem>
+    //             <name>halfqwerty</name>
+    //             <description>English (US, halfqwerty)</description>
+    //             <languageList>
+    //               <iso639Id>eng</iso639Id>
+    //             </languageList>
+    //           </configItem>
+    //           <variantList>
+    //             <variant>
+    //               <configItem>
+    //                 <name>caps</name>
+    //                 <description>English (US, halfqwerty using caps modifier)</description>
+    //               </configItem>
+    //             </variant>
+    //             <variant>
+    //               <configItem>
+    //                 <name>space</name>
+    //                 <description>English (US, halfqwerty assuming space modifier)</description>
+    //               </configItem>
+    //             </variant>
+    //           </variantList>
+    //         </layout>
+    //
+    // You have three options to actually start one-handed typing:
+    //
+    // 1. Use this basic layout and map your own preferred key (or
+    //    pedal, of course) to ISO_Level3_Shift.
+    //
+    // 2. Use the halfqwerty(caps) variant and start one-handed typing
+    //    right away, similar to Randall Munroes 'mirrorboard':
+    //
+    //    See https://blog.xkcd.com/2007/08/14/mirrorboard-a-one-handed-keyboard-layout-for-the-lazy/
+    //
+    //    Note that our halfqwerty layout differs slightly from the
+    //    one explained in the XKCD blog post. See inline
+    //    documentation below.
+    //
+    // 3. Use the halfqwerty(space) variant which allows using the
+    //    space bar to switch to the mirrored layout. This variant
+    //    requires additional configuration, see inline documentation
+    //    below.
+    
     include "level3(modifier_mapping)"
 
     key <TLDE> { [        grave,  asciitilde,      grave,  asciitilde ] } ;
@@ -86,6 +159,11 @@ xkb_symbols "caps" {
 
     key <SPCE> { [        space,       space,     Return              ] } ;
 
+    // As a general rule we try to not change any key behaviour
+    // compared to the default us layout, unless the user triggers the
+    // half-qwerty layout. This tilde=backspace mapping breaks the
+    // rule, because caps+tilde to correct a mistake is too cumbersome
+    // to press.
     key <TLDE> { [    BackSpace,  asciitilde,      grave,  asciitilde ] } ;
 };
 
